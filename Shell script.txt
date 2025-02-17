@@ -1,0 +1,183 @@
+
+- File extension `.sh`
+- At the header
+    #! /bin/bash
+- To make it an executable file
+    chmod -x ${shellFile}
+- Echo for print
+    echo "Hello world!"
+- To write buffer into a file
+    echo "Hello world into a file" > file.txt
+- Comments
+    # This is a comment
+- Conditional statement
+    - Equality Check
+        if [ $count -eq 9 ]; then
+    - Comparison Check
+        if (( $count > 9 )); then
+    - Full Structure:
+        if [ condition ]; then
+          # Commands if condition is true
+        elif [ another_condition ]; then
+          # Commands if another condition is true
+        else
+          # Commands if all conditions are false
+        fi
+- Logical Operators
+    - Use && for AND conditions.
+    - Use || for OR conditions.
+- Operators
+    - Logical Operations:
+        Negate: !EXPRESSION
+    - String Operations:
+        -n STRING: True if the string length is greater than zero.
+        -z STRING: True if the string length is zero.
+        STR1 = STR2: True if the strings are equal.
+        STR1 != STR2: True if the strings are not equal.
+    - Integer Comparisons:
+        INT1 -eq INT2: Equal
+        INT1 -gt INT2: Greater than
+        INT1 -lt INT2: Less than
+    - File Operations:
+        -d FILE: True if the directory exists.
+        -e FILE: True if the file exists.
+        -r FILE: True if the file exists and read permission is granted.
+        -w FILE: True if the file exists and write permission is granted.
+        -x FILE: True if the file exists and execute permission is granted.
+        -s FILE: True if the file exists and its size is greater than zero.
+- Loops
+    - while loop
+        while [ condition ]; do
+          # Commands
+        done
+    - for loop
+        // Iterate over a list of values:
+        for i in 1 2 3 4 5; do
+          # Commands
+        done
+
+        // Using a range of numbers:
+        for i in {0..20}; do
+          # Commands
+        done
+
+        // Using a range with an increment:
+        for i in {0..20..2}; do
+          # Commands
+        done
+
+        // C-Style for Loop
+        for (( i = 0; i < 5; i++ )); do
+          # Commands
+        done
+- Numbers and Arithmetic
+    - Add, subtract, divide, multiple, and modulus
+    Examples:
+        n=1
+        x=2
+    Using Arithmetic Expansion:
+        echo $(( n + x ))  # Addition: 1 + 2 = 3
+    Using expr Command:
+        echo $(expr $n + $x)  # Addition: 1 + 2 = 3
+- Declaring Variables
+    - Basic Declaration:
+        declare pwdfile="/etc/pwd"
+        echo $pwdfile  # Outputs: /etc/pwd
+    - Read-Only Declaration:
+        declare -r pwdfile="/etc/pwd"
+        echo $pwdfile  # Outputs: /etc/pwd
+
+        # Attempting to modify will result in an error:
+        pwdfile="/new/path"  # Error: pwdfile: readonly variable
+- Script input and output
+    - Receiving Input as Parameters
+        Pass arguments to a script using parameters:
+            ./script.sh ${argument1} ${argument2}
+        Access the arguments within the script using positional parameters:
+            $1: Refers to the first argument (${argument1}).
+            $2: Refers to the second argument (${argument2}).
+            $@: Represents all arguments as a list.
+            $#: Represents the total number of arguments.
+- Arrays
+    Declaring an Array
+        - cars=('BMW' 'Toyota')
+    To print all elements of the array
+        - echo "${cars[@]}"  # Outputs: BMW Toyota
+        - echo "${cars[0]}"  # Outputs: BMW
+    Getting Array Size
+        - echo "${#cars[@]}"  # Outputs: 2
+    Removing an Element from the Array
+        - unset cars[1]  # Removes 'Toyota'
+    Adding an Element to the Array
+        - cars[2]='Mercedes'  # Adds 'Mercedes' at index 2
+- Function
+    - Defining a Function
+        function funcName() {
+            # Function body
+        }
+        # OR
+        funcName() {
+            # Function body
+        }
+    - Calling a Function
+        // To call the function, simply use the function name:
+        funcName
+    - Function with Arguments
+        // Functions can accept arguments. The arguments can be accessed within the function using $1, $2, etc.
+        function printWithArguments() {
+            echo "$1 $2 $3"
+        }
+        printWithArguments "Hello" "World" "Shell"
+        # Outputs: Hello World Shell
+    - Returning Values from a Function
+        // Functions don't support direct returning of variables like in some other programming languages.
+        // Instead, you can use echo to output a value, and capture it in a variable.
+        function returnValue() {
+            returningVar="New"
+            echo "$returningVar"
+        }
+        result=$(returnValue)  # Capture the output of the function
+        echo "$result"          # Outputs: New
+- Curl
+    url = "https://www.google.com"
+    curl ${url}
+- Professional menu using case statement
+    echo "Select a car from the list:"
+    select car in "BMW" "Mercedes" "Toyota" "Audi"; do
+        case $car in
+            "BMW")
+                echo "You are selecting BMW"
+                break
+                ;;
+            "Mercedes")
+                echo "You are selecting Mercedes"
+                break
+                ;;
+            "Toyota")
+                echo "You are selecting Toyota"
+                break
+                ;;
+            *)
+                echo "Invalid option. Please select a valid car."
+                ;;
+        esac
+    done
+- Monitoring
+    - inotifywait
+        // Use inotifywait to monitor file system events in real time and log them as they occur.
+        inotifywait -m ${directory}  # Monitor events in real-time for the specified directory
+    - grep
+        Example:
+        // Search for patterns in files, with options to ignore case and display line numbers.
+        // -i: Ignore case (case-insensitive search), and -n: Display line numbers along with matching lines.
+        grep -i -n "${keyword}" "${filename}"
+    - awk
+        // Use awk to search for a pattern and print the result.
+        awk '/windows/{print}' "${filename}"
+    - sed (Stream Editor)
+        // This replaces the first occurrence of 'a' with 'A' on each line.
+        sed 's/a/A/'  # Replace 'a' with 'A' in the text
+        // This replaces all occurrences
+        sed 's/a/A/g'  # Replace all occurrences of 'a' with 'A'
+    - debug
+        bash -x "${shellFilepath}"
