@@ -1,0 +1,121 @@
+
+
+1. Shell and Terminal
+    Commands >> Shell >> Terminal
+    - Shell: Acts as a translator between the user and the system.
+    - Terminal: A window to interact with the shell.
+
+
+2. Commands Structure:
+    ${commandName} ${options} ${inputs}
+
+
+3. PATH Environment Variable
+    - The shell searches for commands in the directories listed in the PATH variable, starting from the leftmost position.
+    - The search stops as soon as the command is found.
+
+
+4. Which Command
+    Used to identify the path of the command being executed by the shell.
+    Example:
+    - which echo
+
+
+5. Manual (Man Pages)
+   Sections in the Manual:
+   - User commands *
+   - System calls
+   - C library functions
+   - Devices and special files
+   - File formats and conventions *
+   - Games
+   - Miscellaneous
+   - System administration *
+   (*Commonly referenced sections)
+
+    Commands:
+    - Syntax:
+        man -k ${library}
+    - Example:
+        man -k echo
+    - After identifying the section number, use the following syntax to access the manual for a specific section:
+        man ${sectionNumber} ${command}
+        man 1 echo
+
+    How to Read Syntax in Man Pages:
+        Example:
+        - which [-a] filename...
+            [] Indicates that the enclosed parameter is optional.
+            ... Implies the parameter accepts more than one input.
+        - which [-a | -f] <filename>
+            | Denotes a choice between the listed options. Only one can be selected.
+            <> Indicates the parameter is mandatory.
+
+    Tips:
+    - Finding a Keyword in a Manual
+        To search for a specific keyword (e.g., ignore) within the manual of a command (e.g., grep):
+        - man grep | grep ignore
+
+
+6. Standard input output
+    - Standard Input (0)
+        cat < input.txt  # Print contents of input.txt to the terminal
+    - Standard Output (1)
+        cat > output.txt  # Redirect input text to output.txt (overwrite)
+    - Standard Error (2)
+        cat -k bla 2>> error.txt  # Redirect error messages to error.txt (append)
+    - Append to Existing File
+        cat >> ${existingFile}  # Append input to an existing file
+    - Copy File Using cat
+        cat < error.txt >> destination.txt  # Copy content from error.txt to destination.txt
+
+
+7. Find Files Using a Pattern
+    - To find files named file*.txt (matching any file starting with "file" and ending with ".txt")
+    find / -name "file*.txt"
+    - To find files with a single character in place of ? (e.g., file1.txt, fileA.txt)
+    find / -name "file?.txt"
+
+
+8. TTY (Teletypewriter)
+    - Redirect Output to a Specific Terminal
+        // Use cat to display the content of output.txt to a specific terminal, such as /dev/pts/2.
+        cat < output.txt > /dev/pts/2  # Redirect content from output.txt to terminal /dev/pts/2
+
+
+9. CUT
+    Given the content of 1.txt:
+            1.txt `LIFE | IS | GREAT`
+    To extract the first field (before the first |):
+        cut -d "|" -f 1 < 1.txt > outputs.txt
+    The result in outputs.txt will be:
+        LIFE
+
+    Explanation:
+        cut: This command is used to cut sections from each line of a file.
+        -d "|": Specifies that the delimiter is the pipe (|) character.
+        -f 1: Tells cut to extract the first field (before the first |).
+        < 1.txt: Reads the content from 1.txt.
+        > outputs.txt: Redirects the output to outputs.txt.
+
+
+10. Pipe and Tee
+    // To execute multiple commands in sequence and redirect the output to multiple files:
+    date | tee today1.txt | tee today2.txt | cut --delimiter " " --fields 1 >> today3.txt
+
+    Explanation:
+        tee: Reads from standard input and writes to standard output and files.
+        cut --delimiter " " --fields 1: Extracts the first word from the date output.
+        >> today3.txt: Appends the extracted field to today3.txt.
+
+
+11. Xargs
+    For commands that do not accept standard input, we can use xargs to pass the input as arguments.
+    Example:
+        date | xargs echo # To echo the output of date
+        cat input.txt | xargs rm # To remove files listed in input.txt
+
+
+12. Files
+    touch file1.txt  # Creates an empty file named file1.txt
+    mkdir -p /a/b/c  # Creates the directory /a/b/c, creating parent directories if they don't exist
